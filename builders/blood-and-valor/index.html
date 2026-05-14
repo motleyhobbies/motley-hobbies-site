@@ -41,22 +41,34 @@ body { font-family: 'Georgia', serif; background: var(--bg); color: var(--dark);
 .fc-motto  { font-size: 0.7rem; color: var(--brown); font-style: italic; margin-top: 6px; border-top: 1px solid #E8DCC8; padding-top: 5px; line-height: 1.4; }
 .fc-arrow  { float: right; color: var(--gold); font-size: 1.1rem; margin-left: 8px; }
 
-.fc-meta { font-size: 0.66rem; color: var(--muted); font-family: sans-serif; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
-.landing-controls {
+/* ── LANDING FILTERS ── */
+.filter-bar {
   background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--gold);
   border-radius: 4px; padding: 12px 14px; margin-bottom: 18px;
-  display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 10px;
+  display: grid; grid-template-columns: minmax(140px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(180px, 1fr);
+  gap: 10px; align-items: end;
 }
-.landing-control { display: flex; flex-direction: column; gap: 4px; }
-.landing-control label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: sans-serif; font-weight: bold; }
-.landing-control select, .landing-control input {
-  width: 100%; border: 1px solid var(--border); border-radius: 3px; background: #FDFAF4;
-  color: var(--dark); padding: 6px 8px; font-size: 0.82rem; font-family: sans-serif; outline: none;
+.filter-group { display: flex; flex-direction: column; gap: 4px; }
+.filter-group label {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brown);
+  font-family: sans-serif; font-weight: bold;
 }
-.landing-control select:focus, .landing-control input:focus { border-color: var(--gold); background: white; }
-.landing-empty { color: var(--muted); font-size: 0.85rem; font-style: italic; font-family: sans-serif; padding: 16px; text-align: center; }
-@media (max-width: 900px) { .landing-controls { grid-template-columns: repeat(2, minmax(150px, 1fr)); } }
-@media (max-width: 600px) { .landing-controls { grid-template-columns: 1fr; } }
+.filter-group select, .filter-group input {
+  width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 3px;
+  background: #FFFDF5; color: var(--dark); font-family: sans-serif; font-size: 0.86rem;
+}
+.fc-meta {
+  font-size: 0.66rem; color: var(--brown); font-family: sans-serif; margin-top: 4px;
+  text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.25;
+}
+.no-factions {
+  background: var(--white); border: 1px dashed var(--border); color: var(--muted);
+  padding: 18px; border-radius: 4px; text-align: center; font-family: sans-serif; font-size: 0.9rem;
+}
+@media (max-width: 760px) {
+  .filter-bar { grid-template-columns: 1fr; }
+}
+
 
 /* ── HEADER ── */
 .app-header {
@@ -283,6 +295,7 @@ body { font-family: 'Georgia', serif; background: var(--bg); color: var(--dark);
   .sum-header .sum-faction { font-size: 10pt; color: #5C3D1E; font-family: sans-serif; }
   .sum-header .sum-motto   { font-size: 8pt; color: #888; font-style: italic; font-family: sans-serif; }
   .sum-header .sum-pts     { font-size: 13pt; font-weight: bold; color: #8B1A1A; margin-top: 5px; font-family: sans-serif; }
+  .sum-header .sum-source  { font-size: 8pt; color: #5C3D1E; margin-top: 3px; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
   .sum-section { margin-bottom: 12px; }
   .sum-section h2 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; background: #2C1A0E; color: white; padding: 3px 8px; margin-bottom: 0; font-family: sans-serif; }
   .sum-row { display: flex; justify-content: space-between; padding: 3px 8px; font-size: 8.5pt; border-bottom: 0.5px solid #E8DCC8; font-family: sans-serif; align-items: baseline; }
@@ -299,6 +312,7 @@ body { font-family: 'Georgia', serif; background: var(--bg); color: var(--dark);
   .card-header { background: #2C1A0E; color: white; padding: 5px 9px; }
   .card-title { font-size: 9.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; font-family: sans-serif; line-height: 1.2; }
   .card-sub   { font-size: 6.5pt; color: #C8941A; margin-top: 1px; font-family: sans-serif; letter-spacing: 0.05em; }
+  .card-source { font-size: 6pt; color: #D8C08A; margin-top: 2px; font-family: sans-serif; letter-spacing: 0.04em; }
   .card-stat-table { width: 100%; border-collapse: collapse; }
   .card-stat-table th { background: #E8DCC8; color: #2C1A0E; font-size: 6pt; text-transform: uppercase; padding: 2px 3px; text-align: center; border: 0.5px solid #C8B090; font-family: sans-serif; }
   .card-stat-table td { text-align: center; padding: 3px 3px; font-weight: bold; font-size: 9pt; border: 0.5px solid #E8DCC8; font-family: 'Georgia', serif; }
@@ -1540,68 +1554,74 @@ function upgradeSummary(entry, def) {
 // LANDING PAGE
 // ══════════════════════════════════════════════════════════════════
 function renderLanding() {
-  const sourceValues = SOURCE_ORDER.filter(src => FACTIONS.some(f => factionSource(f) === src))
-    .concat([...new Set(FACTIONS.map(f => factionSource(f)).filter(src => !SOURCE_ORDER.includes(src)))].sort());
-  const nationValues = NATION_ORDER.filter(n => FACTIONS.some(f => factionNation(f) === n))
-    .concat([...new Set(FACTIONS.map(f => factionNation(f)).filter(n => !NATION_ORDER.includes(n)))].sort());
-  const query = landingFilters.search.trim().toLowerCase();
+  normalizeFactionData();
+
+  const sources = [...new Set(FACTIONS.map(f => factionSource(f)))].sort((a,b)=>a.localeCompare(b));
+  const nations = [...new Set(FACTIONS.map(f => factionNation(f)))].sort((a,b)=>a.localeCompare(b));
+  const q = (landingFilters.search || '').trim().toLowerCase();
+
   const filtered = FACTIONS.filter(f => {
-    const srcOk = landingFilters.source === 'all' || factionSource(f) === landingFilters.source;
-    const nationOk = landingFilters.nation === 'all' || factionNation(f) === landingFilters.nation;
-    const text = `${f.name || ''} ${f.subtitle || ''} ${f.theater || ''} ${f.motto || ''} ${f.source || ''} ${f.nation || ''}`.toLowerCase();
-    const searchOk = !query || text.includes(query);
-    return srcOk && nationOk && searchOk;
+    const source = factionSource(f);
+    const nation = factionNation(f);
+    const haystack = `${f.name || ''} ${f.subtitle || ''} ${f.theater || ''} ${source} ${nation} ${f.motto || ''}`.toLowerCase();
+    return (landingFilters.source === 'all' || source === landingFilters.source)
+      && (landingFilters.nation === 'all' || nation === landingFilters.nation)
+      && (!q || haystack.includes(q));
   });
 
-  const groups = {};
-  for (const f of filtered) {
-    const key = landingGroupLabel(f);
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(f);
-  }
-
-  let html = `<div class="landing-controls">
-    <div class="landing-control">
-      <label for="landing-group-by">Group by</label>
-      <select id="landing-group-by" onchange="landingFilters.groupBy=this.value; renderLanding()">
+  let html = `<div class="filter-bar">
+    <div class="filter-group">
+      <label for="landing-group">Group by</label>
+      <select id="landing-group" onchange="landingFilters.groupBy=this.value; renderLanding()">
         <option value="theater" ${landingFilters.groupBy==='theater'?'selected':''}>Theater</option>
-        <option value="source" ${landingFilters.groupBy==='source'?'selected':''}>Source Book/PDF</option>
+        <option value="source" ${landingFilters.groupBy==='source'?'selected':''}>Source</option>
         <option value="nation" ${landingFilters.groupBy==='nation'?'selected':''}>Faction / Nation</option>
       </select>
     </div>
-    <div class="landing-control">
-      <label for="landing-source-filter">Source</label>
-      <select id="landing-source-filter" onchange="landingFilters.source=this.value; renderLanding()">
-        ${landingControlOptions(sourceValues, landingFilters.source, 'All Sources')}
+    <div class="filter-group">
+      <label for="landing-source">Source</label>
+      <select id="landing-source" onchange="landingFilters.source=this.value; renderLanding()">
+        ${landingControlOptions(sources, landingFilters.source, 'All Sources')}
       </select>
     </div>
-    <div class="landing-control">
-      <label for="landing-nation-filter">Faction / Nation</label>
-      <select id="landing-nation-filter" onchange="landingFilters.nation=this.value; renderLanding()">
-        ${landingControlOptions(nationValues, landingFilters.nation, 'All Factions / Nations')}
+    <div class="filter-group">
+      <label for="landing-nation">Faction / Nation</label>
+      <select id="landing-nation" onchange="landingFilters.nation=this.value; renderLanding()">
+        ${landingControlOptions(nations, landingFilters.nation, 'All Factions')}
       </select>
     </div>
-    <div class="landing-control">
+    <div class="filter-group">
       <label for="landing-search">Search</label>
-      <input id="landing-search" type="search" value="${esc(landingFilters.search)}" placeholder="Faction, theater, source..." oninput="landingFilters.search=this.value; renderLanding(); setTimeout(function(){var el=document.getElementById('landing-search'); if(el){el.focus(); el.setSelectionRange(el.value.length, el.value.length);}},0)">
+      <input id="landing-search" type="search" value="${esc(landingFilters.search)}"
+             placeholder="Faction, theater, source..."
+             oninput="landingFilters.search=this.value; renderLanding()">
     </div>
   </div>`;
 
   if (!filtered.length) {
-    html += '<div class="landing-empty">No factions match the current filters.</div>';
+    html += `<div class="no-factions">No force lists match the current filters.</div>`;
+    document.getElementById('land-content').innerHTML = html;
+    return;
   }
 
-  for (const [group, factions] of Object.entries(groups)) {
+  const groups = {};
+  for (const f of filtered) {
+    const label = landingGroupLabel(f);
+    if (!groups[label]) groups[label] = [];
+    groups[label].push(f);
+  }
+
+  for (const [label, factions] of Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0]))) {
     html += `<div class="theater-block">
-      <div class="theater-label">${esc(group)}</div>
+      <div class="theater-label">${esc(label)}</div>
       <div class="faction-grid">`;
     for (const f of factions) {
       html += `<div class="faction-card" onclick="pickFaction('${f.id}')">
         <span class="fc-arrow">&#8594;</span>
         <div class="fc-name">${esc(f.name)}</div>
-        <div class="fc-sub">${esc(f.subtitle)}</div>
+        <div class="fc-sub">${esc(f.subtitle || '')}</div>
         <div class="fc-meta">${esc(factionNation(f))} · ${esc(factionSource(f))}</div>
-        <div class="fc-motto">${esc(f.motto)}</div>
+        <div class="fc-motto">${esc(f.motto || '')}</div>
       </div>`;
     }
     html += `</div></div>`;
@@ -1615,7 +1635,7 @@ function showBuilder() {
   const f = getFaction();
   if (f) {
     document.getElementById('hdr-title').textContent = `Blood & Valor — ${f.name}`;
-    document.getElementById('hdr-faction').textContent = `${f.subtitle} · ${factionNation(f)} · Source: ${factionSource(f)}`;
+    document.getElementById('hdr-faction').textContent = `${f.subtitle} · Source: ${factionSource(f)}`;
     document.getElementById('hdr-motto').textContent   = f.motto;
   }
 }
@@ -13932,72 +13952,87 @@ FACTIONS.push(...[
 
 // Normalize data from generated expansion blocks so both {name: ...} and {label: ...}
 // upgrade formats work consistently in the builder, saves, and print output.
+function normalizeFactionData() {
+  for (const f of FACTIONS) {
+    for (const bucket of ['commandTeams', 'coreUnits', 'supportUnits']) {
+      for (const unit of (f[bucket] || [])) {
+        if (!Array.isArray(unit.specialRules)) unit.specialRules = [];
+        if (Array.isArray(unit.upgrades)) {
+          for (const up of unit.upgrades) {
+            if (!up.name && up.label) up.name = up.label;
+            if (!up.label && up.name) up.label = up.name;
+          }
+        }
+      }
+    }
+  }
+}
+normalizeFactionData();
 
-const SOURCE_ORDER = [
-  'Blood and Valor',
-  'End of Empires',
-  'Russian Imperial Army PDF',
-  'Russo-Japanese War Supplement',
-  'The Mexican Intervention Supplement',
-  'Unknown Source'
-];
+
+// ══════════════════════════════════════════════════════════════════
+// LANDING FILTERS, SOURCE, AND FACTION METADATA
+// ══════════════════════════════════════════════════════════════════
+let landingFilters = { groupBy:'theater', source:'all', nation:'all', search:'' };
 
 function inferFactionSource(f) {
-  if (!f) return 'Unknown Source';
-  if (f.source) return f.source;
-  const id = String(f.id || '');
-  const theater = String(f.theater || '');
-  const subtitle = String(f.subtitle || '');
-  if (id.startsWith('eoe_') || /End of Empires/i.test(subtitle)) return 'End of Empires';
+  const id = String(f?.id || '').toLowerCase();
+  if (id.startsWith('eoe_')) return 'End of Empires';
   if (id === 'russian_wwi') return 'Russian Imperial Army PDF';
-  if (id === 'russian_rjw' || id === 'japanese' || /Russo-Japanese/i.test(theater)) return 'Russo-Japanese War Supplement';
-  if (/The Mexican Intervention/i.test(theater) || ['american_mi','villistas','zapatistas','carrancistas','federal'].includes(id)) return 'The Mexican Intervention Supplement';
+  if (['american_mi','villistas','zapatistas','carrancistas','federal'].includes(id)) return 'The Mexican Intervention Supplement';
+  if (['russian_rjw','japanese'].includes(id)) return 'Russo-Japanese War Supplement';
   return 'Blood and Valor';
+}
+
+function inferFactionNation(f) {
+  if (!f) return 'Other';
+  const id = String(f.id || '').toLowerCase();
+  const name = String(f.name || '').toLowerCase();
+  const subtitle = String(f.subtitle || '').toLowerCase();
+  const text = `${id} ${name} ${subtitle}`;
+
+  // Explicit ID-first rules prevent source/theater names like "Russo-Japanese War" from misclassifying Russian lists as Japanese.
+  if (id === 'russian_wwi' || id === 'russian_rjw' || id.startsWith('eoe_russian') ||
+      id === 'eoe_free_russia' || id === 'eoe_pro_bolshevik' || id === 'eoe_anti_bolshevik' ||
+      id === 'eoe_kerensky_krasnov' || id === 'eoe_prikamye' || id.startsWith('eoe_red_') ||
+      id === 'eoe_partizanshchina' || id === 'eoe_don_army' || id === 'eoe_atamanshchina' ||
+      id === 'eoe_povolzhye' || id === 'eoe_green_peasants' || id.startsWith('eoe_volunteer') ||
+      id === 'eoe_siberian_white' || id === 'eoe_northern_russia') return 'Russian';
+
+  if (id === 'japanese' || id === 'eoe_japanese_far_east' || name.includes('japanese')) return 'Japanese';
+  if (id.startsWith('british') || id === 'eoe_ric' || name.includes('british') || name.includes('royal irish constabulary')) return 'British';
+  if (id === 'anzac' || text.includes('anzac') || text.includes('australian and new zealand')) return 'ANZAC';
+  if (id.startsWith('german') || id === 'eoe_german_east' || name.includes('german')) return 'German';
+  if (id.startsWith('french') || name.includes('french')) return 'French';
+  if (id.startsWith('ottoman') || name.includes('ottoman')) return 'Ottoman';
+  if (id.startsWith('american') || name.includes('american')) return 'American';
+  if (id.startsWith('belgian') || name.includes('belgian')) return 'Belgian';
+  if (['villistas','zapatistas','carrancistas','federal'].includes(id) || name.includes('mexican') ||
+      name.includes('división del norte') || name.includes('libertador del sur') || name.includes('constitutional army')) return 'Mexican';
+
+  if (id === 'eoe_italy_1915' || name.includes('italian')) return 'Italian';
+  if (id === 'eoe_austrohungarian_1914' || name.includes('austro-hungarian') || name.includes('austrian')) return 'Austro-Hungarian';
+  if (id === 'eoe_greek' || name.includes('greek') || name.includes('hellenic')) return 'Greek';
+  if (id === 'eoe_romanian' || name.includes('romanian')) return 'Romanian';
+  if (id === 'eoe_bulgarian' || name.includes('bulgarian')) return 'Bulgarian';
+  if (id === 'eoe_serbian' || name.includes('serbian')) return 'Serbian';
+  if (id.startsWith('eoe_ukrainian') || id === 'eoe_black_anarchist' || name.includes('ukrainian') || name.includes('makhno')) return 'Ukrainian';
+  if (id === 'eoe_czechoslovak_legion' || name.includes('czechoslovak')) return 'Czechoslovak';
+  if (id.startsWith('eoe_polish') || id === 'eoe_greater_poland' || name.includes('polish') || name.includes('greater poland')) return 'Polish';
+  if (id === 'eoe_chinese_warlords' || name.includes('chinese')) return 'Chinese';
+  if (id === 'eoe_portuguese' || name.includes('portuguese') || name.includes('corpo expedicion')) return 'Portuguese';
+  if (id === 'eoe_irish_volunteers' || name.includes('irish volunteers')) return 'Irish';
+
+  return 'Other';
 }
 
 function factionSource(f) {
   return f?.source || inferFactionSource(f);
 }
 
-const NATION_ORDER = [
-  'American','ANZAC','Austro-Hungarian','Belgian','British','Bulgarian','Chinese','Czechoslovak','French','German','Greek','Irish','Italian','Japanese','Mexican','Ottoman','Polish','Portuguese','Romanian','Russian','Serbian','Ukrainian'
-];
-
-function inferFactionNation(f) {
-  if (!f) return 'Other';
-  if (f.nation) return f.nation;
-  const id = String(f.id || '').toLowerCase();
-  const text = `${f.name || ''} ${f.subtitle || ''} ${f.theater || ''}`.toLowerCase();
-  if (id.includes('anzac') || text.includes('anzac') || text.includes('australian and new zealand')) return 'ANZAC';
-  if (id.includes('austrohungarian') || text.includes('austro-hungarian') || text.includes('austrian')) return 'Austro-Hungarian';
-  if (id.includes('american') || /\bamerican\b/.test(text) || text.includes('aef')) return 'American';
-  if (id.includes('belgian') || text.includes('belgian')) return 'Belgian';
-  if (id.includes('british') || text.includes('british') || text.includes('royal irish constabulary') || id === 'eoe_ric') return 'British';
-  if (id.includes('bulgarian') || text.includes('bulgarian')) return 'Bulgarian';
-  if (id.includes('chinese') || text.includes('chinese warlord')) return 'Chinese';
-  if (id.includes('czechoslovak') || text.includes('czechoslovak')) return 'Czechoslovak';
-  if (id.includes('french') || text.includes('french') || text.includes('blue army')) return 'French';
-  if (id.includes('german') || text.includes('german')) return 'German';
-  if (id.includes('greek') || text.includes('greek') || text.includes('hellenic')) return 'Greek';
-  if (id.includes('irish_volunteers') || text.includes('irish volunteers')) return 'Irish';
-  if (id.includes('italy') || text.includes('italian')) return 'Italian';
-  if (id.includes('japanese') || text.includes('japanese')) return 'Japanese';
-  if (['villistas','zapatistas','carrancistas','federal'].includes(id) || text.includes('villistas') || text.includes('zapatista') || text.includes('carrancistas') || text.includes('mexican federal') || text.includes('constitucional') || text.includes('constitutional army') || text.includes('división del norte') || text.includes('liberation army of the south')) return 'Mexican';
-  if (id.includes('ottoman') || text.includes('ottoman')) return 'Ottoman';
-  if (id.includes('polish') || text.includes('polish') || text.includes('greater poland')) return 'Polish';
-  if (id.includes('portuguese') || text.includes('portuguese') || text.includes('corpo expedicion')) return 'Portuguese';
-  if (id.includes('romanian') || text.includes('romanian')) return 'Romanian';
-  if (id.includes('russian') || id.includes('bolshevik') || id.includes('kerensky') || id.includes('prikamye') || id.includes('red_') || id.includes('black_anarchist') || id.includes('partizanshchina') || id.includes('don_army') || id.includes('atamanshchina') || id.includes('povolzhye') || id.includes('green_peasants') || id.includes('volunteer') || id.includes('siberian') || id.includes('northern_russia') || text.includes('russian') || text.includes('bolshevik') || text.includes('red army') || text.includes('white') || text.includes('cossack') || text.includes('volunteer army') || text.includes('siberian army') || text.includes('don army')) return 'Russian';
-  if (id.includes('serbian') || text.includes('serbian')) return 'Serbian';
-  if (id.includes('ukrainian') || text.includes('ukrainian')) return 'Ukrainian';
-  return 'Other';
-}
-
 function factionNation(f) {
   return f?.nation || inferFactionNation(f);
 }
-
-let landingFilters = { groupBy:'theater', source:'all', nation:'all', search:'' };
 
 function landingGroupLabel(f) {
   if (landingFilters.groupBy === 'source') return factionSource(f);
@@ -14013,13 +14048,13 @@ function landingControlOptions(values, selected, allLabel) {
 
 function normalizeFactionData() {
   for (const f of FACTIONS) {
-    if (!f.source) f.source = inferFactionSource(f);
-    if (!f.nation) f.nation = inferFactionNation(f);
+    f.source = inferFactionSource(f);
+    f.nation = inferFactionNation(f);
     for (const bucket of ['commandTeams', 'coreUnits', 'supportUnits']) {
       for (const unit of (f[bucket] || [])) {
         if (!Array.isArray(unit.specialRules)) unit.specialRules = [];
-        if (!unit.source) unit.source = f.source;
-        if (!unit.nation) unit.nation = f.nation;
+        unit.source = unit.source || f.source;
+        unit.nation = unit.nation || f.nation;
         if (Array.isArray(unit.upgrades)) {
           for (const up of unit.upgrades) {
             if (!up.name && up.label) up.name = up.label;
@@ -14030,7 +14065,6 @@ function normalizeFactionData() {
     }
   }
 }
-normalizeFactionData();
 
 // ══════════════════════════════════════════════════════════════════
 // PRINT
@@ -14140,7 +14174,6 @@ function specialRulesDetailed(def) {
 function buildCard(entry) {
   const def  = getDef(entry.unitId, entry.category);
   if (!def)  return '';
-  const source = def.source || factionSource(getFaction());
   const rawCost = entry.category === 'cmd' ? (def.cost ?? 0) + upgradeCost(entry, def) : unitCost(entry);
   const cost = entry.category === 'cmd' && rawCost === 0 ? 'FREE' : rawCost + ' pts';
   const comp = def.scalable && entry.models ? def.composition + ` — ${entry.models} models in list` : def.composition;
@@ -14151,9 +14184,9 @@ function buildCard(entry) {
     <div class="card-header">
       <div class="card-title">${esc(def.name)}</div>
       <div class="card-sub">${esc(sub)}</div>
+      <div class="card-source">Source: ${esc(def.source || factionSource(getFaction()))}</div>
     </div>
     ${cardStatTable(def)}
-    <div class="card-info"><strong>Source:</strong> ${esc(source)}</div>
     <div class="card-info"><strong>Composition:</strong> ${esc(comp)}</div>
     ${def.specialRules?.length ? `<div class="card-info"><strong>Special Rules:</strong>${specialRulesDetailed(def)}</div>` : ''}
     <div class="card-info"><strong>Weapons:</strong> ${esc(def.weapons)}</div>
@@ -14175,7 +14208,7 @@ function generatePrint() {
     <div class="sum-header">
       <h1>${esc(armyName)}</h1>
       <div class="sum-faction">${esc(f.name)} · ${esc(f.subtitle)}</div>
-      <div class="sum-motto"><strong>Faction/Nation:</strong> ${esc(factionNation(f))} · <strong>Source:</strong> ${esc(factionSource(f))}</div>
+      <div class="sum-source">Source: ${esc(factionSource(f))}</div>
       <div class="sum-motto">${esc(f.motto)}</div>
       <div class="sum-pts">${pts} / ${state.pointsLimit} Points</div>
       ${f.factionNote ? `<div class="sum-motto"><strong>Note:</strong> ${esc(f.factionNote)}</div>` : ''}
@@ -14235,8 +14268,7 @@ function generatePrint() {
 // INIT
 // ══════════════════════════════════════════════════════════════════
 (function init() {
-  // Always start on the faction selection page. Saved armies remain available via Load Army,
-  // but in-progress autosaves are not automatically restored for public/static hosting.
+  normalizeFactionData();
   renderLanding();
 })();
 </script>
