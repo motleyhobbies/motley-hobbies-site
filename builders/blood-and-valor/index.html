@@ -1495,9 +1495,13 @@ function miniStats(def) {
     ).join('') + '</div>';
 }
 
+function upgradeLabel(up) {
+  return up?.name || up?.label || up?.id || 'Upgrade';
+}
+
 function upgradesMeta(def) {
   if (!def?.upgrades?.length) return '';
-  return `<br><strong>Upgrades:</strong> ${esc(def.upgrades.map(u => `${u.name} (+${u.cost} pts)`).join('; '))}`;
+  return `<br><strong>Upgrades:</strong> ${esc(def.upgrades.map(u => `${upgradeLabel(u)} (+${u.cost} pts)`).join('; '))}`;
 }
 
 function upgradeControls(entry, def, target) {
@@ -1505,14 +1509,14 @@ function upgradeControls(entry, def, target) {
   const selected = selectedUpgradeIds(entry);
   return `<div class="upgrade-list">${def.upgrades.map(up => {
     const checked = selected.includes(up.id) ? 'checked' : '';
-    return `<label class="upgrade-check"><input type="checkbox" ${checked} onchange="toggleUpgrade('${target}', '${up.id}')"> ${esc(up.name)} <strong>+${up.cost} pts</strong></label>`;
+    return `<label class="upgrade-check"><input type="checkbox" ${checked} onchange="toggleUpgrade('${target}', '${up.id}')"> ${esc(upgradeLabel(up))} <strong>+${up.cost} pts</strong></label>`;
   }).join('')}</div>`;
 }
 
 function upgradeSummary(entry, def) {
   const selected = selectedUpgradeIds(entry);
   if (!def?.upgrades?.length || !selected.length) return '';
-  return def.upgrades.filter(up => selected.includes(up.id)).map(up => `${up.name} (+${up.cost} pts)`).join('; ');
+  return def.upgrades.filter(up => selected.includes(up.id)).map(up => `${upgradeLabel(up)} (+${up.cost} pts)`).join('; ');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1670,7 +1674,8 @@ function renderSupPanel() {
         <button class="btn-add" onclick="addUnit('${def.id}','support')" ${canAdd?'':'disabled'}>+ Add Unit</button>
         ${count > 0 ? `<span class="in-army-badge">${count} in army</span>` : ''}
         ${limitNote ? `<span class="limit-note">${esc(limitNote)}</span>` : ''}
-        ${!canAdd && supportCount()>=coreCount() ? '<span class="limit-note">(Add more Core units to unlock Support)</span>' : ''}
+        ${!canAdd && !def.isBarrage && supportCount()>=coreCount() ? '<span class="limit-note">(Add more Core units to unlock Support)</span>' : ''}
+        ${!canAdd && (def.isBarrage || supportCount()<coreCount()) ? '<span class="limit-note">(Limit reached)</span>' : ''}
       </div>
     </div>`;
   }).join('');
@@ -13862,6 +13867,25 @@ FACTIONS.push(...[
   }
 ]);
 
+// Normalize data from generated expansion blocks so both {name: ...} and {label: ...}
+// upgrade formats work consistently in the builder, saves, and print output.
+function normalizeFactionData() {
+  for (const f of FACTIONS) {
+    for (const bucket of ['commandTeams', 'coreUnits', 'supportUnits']) {
+      for (const unit of (f[bucket] || [])) {
+        if (!Array.isArray(unit.specialRules)) unit.specialRules = [];
+        if (Array.isArray(unit.upgrades)) {
+          for (const up of unit.upgrades) {
+            if (!up.name && up.label) up.name = up.label;
+            if (!up.label && up.name) up.label = up.name;
+          }
+        }
+      }
+    }
+  }
+}
+normalizeFactionData();
+
 // ══════════════════════════════════════════════════════════════════
 // PRINT
 // ══════════════════════════════════════════════════════════════════
@@ -13959,6 +13983,10 @@ function specialRulesDetailed(def) {
     const base = ruleBaseName(label);
     const defText = SPECIAL_RULE_DEFS[base];
     if (defText) return `<div class="card-rule"><strong>${esc(label)}:</strong> ${esc(defText)}</div>`;
+    const colon = label.indexOf(':');
+    if (colon > -1) {
+      return `<div class="card-rule"><strong>${esc(label.slice(0, colon).trim())}:</strong> ${esc(label.slice(colon + 1).trim())}</div>`;
+    }
     return `<div class="card-rule"><strong>${esc(label)}</strong></div>`;
   }).join('');
 }
