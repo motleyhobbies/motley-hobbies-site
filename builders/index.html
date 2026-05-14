@@ -7,7 +7,6 @@
   <title>Army Builders - Motley Hobbies</title>
 
   <style>
-
     body {
       margin: 0;
       background-color: #111;
@@ -34,26 +33,57 @@
     }
 
     main {
-      max-width: 900px;
+      max-width: 1050px;
       margin: auto;
       padding: 40px 20px;
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      align-items: stretch;
     }
 
     .builder-card {
       background-color: #1e1e1e;
       border: 1px solid #333;
       border-radius: 12px;
-      padding: 35px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
     }
 
     .builder-card h2 {
       margin-top: 0;
+      margin-bottom: 8px;
       color: #ffffff;
+      font-size: 1.8rem;
     }
 
     .builder-card p {
       color: #cccccc;
       line-height: 1.7;
+    }
+
+    .game-meta {
+      margin: 14px 0 4px;
+      padding: 12px 14px;
+      border-left: 4px solid #c62828;
+      background-color: #171717;
+      color: #bdbdbd;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .game-meta strong {
+      color: #ffffff;
+    }
+
+    .card-actions {
+      margin-top: auto;
     }
 
     .button {
@@ -72,6 +102,19 @@
       background-color: #e53935;
     }
 
+    .button.secondary {
+      background-color: #333;
+      border: 1px solid #555;
+    }
+
+    .button.secondary:hover {
+      background-color: #444;
+    }
+
+    .home-link {
+      margin-top: 30px;
+    }
+
     footer {
       margin-top: 60px;
       padding: 30px;
@@ -80,41 +123,99 @@
       color: #888;
     }
 
+    @media (max-width: 560px) {
+      header {
+        padding: 30px 16px;
+      }
+
+      header h1 {
+        font-size: 2.1rem;
+      }
+
+      main {
+        padding: 28px 14px;
+      }
+
+      .builder-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .builder-card {
+        padding: 24px;
+      }
+
+      .button {
+        display: block;
+        text-align: center;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
 
   <header>
-
     <h1>Army Builders</h1>
 
     <p>
       Custom tabletop force organization tools and army builders hosted by Motley Hobbies.
     </p>
-
   </header>
 
   <main>
 
-    <div class="builder-card">
+    <section class="builder-grid" aria-label="Available army builders">
 
-      <h2>Blood & Valor</h2>
+      <div class="builder-card">
+        <h2>Blood &amp; Valor</h2>
 
-      <p>
-        Build armies, organize platoons, calculate points, manage unit options,
-        and print playable force lists directly in your browser.
-      </p>
+        <div class="game-meta">
+          <strong>Rules by:</strong> Rufus DeVane<br>
+          <strong>Published by:</strong> Firelock Games
+        </div>
 
-      <a class="button" href="blood-and-valor/">
-        Launch Blood & Valor Builder
+        <p>
+          Build armies, organize platoons, calculate points, manage unit options,
+          and print playable force lists directly in your browser.
+        </p>
+
+        <div class="card-actions">
+          <a class="button" href="blood-and-valor/">
+            Launch Blood &amp; Valor Builder
+          </a>
+        </div>
+      </div>
+
+      <div class="builder-card">
+        <h2>Through the Mud and the Blood</h2>
+
+        <div class="game-meta">
+          <strong>Rules by:</strong> Richard Clarke<br>
+          <strong>Published by:</strong> TooFatLardies
+        </div>
+
+        <p>
+          Build Great War forces around Big Men, Groups, support weapons,
+          troop quality, morale, and card deck organization for
+          <em>Through the Mud and the Blood</em>.
+        </p>
+
+        <div class="card-actions">
+          <a class="button" href="mud-and-blood/">
+            Launch Mud &amp; Blood Builder
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="home-link">
+      <a class="button secondary" href="../index.html">
+        Return Home
       </a>
-
     </div>
-
-    <a class="button" href="../index.html">
-      Return Home
-    </a>
 
   </main>
 
