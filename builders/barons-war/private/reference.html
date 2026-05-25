@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Barons' War 2E – King John Players Aid</title>
+  <style>
+    :root {
+      --ink: #1e1b18;
+      --muted: #5d5248;
+      --accent: #6b2230;
+      --accent2: #8b6a3f;
+      --paper: #fbf8f2;
+      --line: #ccbda8;
+      --soft: #f1e9dc;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #ddd6ca;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.25;
+    }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 16px auto;
+      background: var(--paper);
+      padding: 0.38in;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.12);
+      position: relative;
+      page-break-after: always;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      line-height: 1.1;
+      color: var(--accent);
+    }
+
+    h1 {
+      font-size: 24px;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    h3 {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .muted { color: var(--muted); }
+
+    .top-grid,
+    .two-col,
+    .three-col {
+      display: grid;
+      gap: 10px;
+    }
+
+    .top-grid { grid-template-columns: 1.2fr 0.8fr; }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .three-col { grid-template-columns: repeat(3, 1fr); }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 8px 9px;
+      border-radius: 6px;
+    }
+
+    .panel.soft { background: var(--soft); }
+
+    ul, ol {
+      margin: 5px 0 0 17px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 4px; }
+
+    .key-list li { margin-bottom: 2px; }
+
+    .rule-block {
+      border-left: 4px solid var(--accent2);
+      padding-left: 8px;
+      margin-top: 6px;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      border: 1px solid var(--line);
+      padding: 5px 6px;
+      vertical-align: top;
+    }
+
+    .mini-table th {
+      background: var(--soft);
+      color: var(--accent);
+      text-align: left;
+      font-size: 11px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 10px;
+      margin-left: 4px;
+      white-space: nowrap;
+    }
+
+    .footer {
+      position: absolute;
+      left: 0.38in;
+      right: 0.38in;
+      bottom: 0.22in;
+      font-size: 10px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 4px;
+    }
+
+    .section-gap { margin-top: 10px; }
+
+    @media print {
+      body { background: white; }
+      .page {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        box-shadow: none;
+        padding: 0.35in;
+      }
+      @page {
+        size: Letter portrait;
+        margin: 0.25in;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 14px;
+      }
+      .top-grid,
+      .two-col,
+      .three-col {
+        grid-template-columns: 1fr;
+      }
+      .footer {
+        position: static;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="page">
+    <h1>The Barons' War 2nd Edition – Quick Reference</h1>
+    <div class="subtitle">General rules side • built for table use alongside the King John sourcebook</div>
+
+    <div class="top-grid">
+      <div class="panel">
+        <h2>Skirmish Retinue Build</h2>
+        <ul class="key-list small">
+          <li><strong>Choose an agreed points value.</strong> Around <strong>500 points</strong> is a common starting skirmish.</li>
+          <li><strong>At least 1 Commander</strong> must be chosen as the <strong>Retinue Leader</strong>.</li>
+          <li><strong>Every Commander</strong> must be attached to a different warrior group to create a <strong>Command Group</strong>.</li>
+          <li><strong>Max 50%</strong> of total points may be spent on <strong>Commanders + Command Groups</strong>.</li>
+          <li><strong>Min 10%</strong> of points must be spent on <strong>Green troops</strong> unless the faction overrides this.</li>
+          <li><strong>Minimum group size:</strong> 4 Infantry or 2 Cavalry.</li>
+          <li>All warriors in a Group must have the <strong>same profile, abilities, and equipment</strong>.</li>
+          <li><strong>Coherency:</strong> 2&quot; for Infantry, 3&quot; for Cavalry.</li>
+        </ul>
+        <div class="rule-block small">
+          <strong>Building a Command Group:</strong> buy the warrior Group first, then add the Commander to that Group. Commanders may have different equipment and may purchase Command Group upgrades.
+        </div>
+      </div>
+
+      <div class="panel soft">
+        <h2>Core Principles</h2>
+        <ul class="key-list small">
+          <li>On a <strong>d10</strong>, <strong>10 always succeeds</strong> and <strong>1 always fails</strong>.</li>
+          <li><strong>High dice are good</strong>; low stats are better.</li>
+          <li>All measurements are in <strong>inches</strong>. You may measure at any time.</li>
+          <li><strong>LoS</strong> is drawn <strong>centre to centre</strong> of bases.</li>
+          <li>Distances are measured <strong>edge to edge</strong>.</li>
+          <li>Groups have <strong>no facing</strong>.</li>
+          <li>Groups must stay at least <strong>1&quot; apart</strong>, except when charging into melee.</li>
+          <li>When attacking, you normally target the <strong>nearest enemy</strong> in range and LoS unless a Morale check or rule allows otherwise.</li>
+          <li>Fractions are rounded <strong>up</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-gap two-col">
+      <div class="panel">
+        <h2>Game Round Sequence</h2>
+        <ol class="small">
+          <li><strong>Initiative Phase:</strong> each player rolls 1d10, applying <strong>-1 per Morale Penalty</strong> on the Retinue Leader. Winner chooses who goes first.</li>
+          <li><strong>Optional Initiative Push:</strong> a Retinue Leader may spend up to <strong>2 Actions</strong> to roll extra d10s for Initiative.</li>
+          <li><strong>Activation Phase:</strong>
+            <ul>
+              <li><strong>Compulsory Activations first</strong> (most often Broken Groups trying to Rally).</li>
+              <li>Then players <strong>alternate New Activations</strong> in any order.</li>
+              <li>Players may <strong>pass</strong> in New Activations; <strong>3 consecutive passes</strong> end the phase.</li>
+            </ul>
+          </li>
+          <li><strong>Housekeeping Phase:</strong>
+            <ul>
+              <li>Check victory conditions.</li>
+              <li>Remove all Action tokens.</li>
+              <li>Non-Weary Groups remove <strong>1 Morale Penalty</strong>.</li>
+              <li>Weary Groups test Morale; if they pass, remove 1 Morale Penalty.</li>
+              <li>Remove Weary markers and re-establish 1&quot; spacing.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="panel">
+        <h2>Actions, Reactions & Status</h2>
+        <table class="mini-table">
+          <tr><th style="width:28%">Action</th><th>Quick summary</th></tr>
+          <tr><td><strong>Move</strong></td><td>Move up to Movement distance.</td></tr>
+          <tr><td><strong>Run</strong></td><td>Move up to double Movement in a straight line.</td></tr>
+          <tr><td><strong>Combat</strong></td><td>Charge into melee or Shoot with missile weapons.</td></tr>
+          <tr><td><strong>Defend</strong></td><td>Brace or take cover against a future attack.</td></tr>
+          <tr><td><strong>Command</strong></td><td>Commander attempts to give another Group an extra Action or Reaction.</td></tr>
+          <tr><td><strong>Special</strong></td><td>Used for special rules, abilities, traits, or scenario effects.</td></tr>
+          <tr><td><strong>Rally</strong></td><td>Broken Group attempts to recover.</td></tr>
+        </table>
+        <div class="rule-block small">
+          <strong>Reactions:</strong> if targeted and you have an Action available, you may usually <strong>Attack Back</strong>, <strong>Reaction Shoot</strong>, <strong>Shoot Back</strong>, <strong>Defend</strong>, or use a <strong>Command Action</strong> to enable a Reaction.
+        </div>
+        <div class="rule-block small">
+          <strong>Weary:</strong> a Group becomes <strong>Weary</strong> as soon as it declares a <strong>second Action/Reaction</strong> in a round. No Group may ever take more than <strong>two</strong> Actions/Reactions in a round.
+        </div>
+        <div class="rule-block small">
+          <strong>Broken:</strong> Broken Groups cannot make Reactions and must activate in the Compulsory Activations step to <strong>Rally</strong>.
+        </div>
+      </div>
+    </div>
+
+    <div class="section-gap three-col">
+      <div class="panel">
+        <h2>Morale Penalties</h2>
+        <ul class="key-list small">
+          <li>Most commonly gained by taking <strong>casualties</strong>.</li>
+          <li>Each Morale Penalty gives <strong>-1</strong> to <strong>Morale</strong> and <strong>Order</strong> checks.</li>
+          <li>A Group can never have more than <strong>6</strong> Morale Penalties.</li>
+          <li>If a Group already on 6 would gain another, it must immediately take a <strong>Morale test</strong>; if failed, it becomes <strong>Broken</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Command Notes</h2>
+        <ul class="key-list small">
+          <li>Commanders are attached to their personal <strong>Command Group</strong>.</li>
+          <li>A Group using a <strong>Command Action</strong> must usually pass an <strong>Order check</strong>.</li>
+          <li>The Action granted by a Command Action counts as an Action for the <strong>target Group</strong>, not the Commander.</li>
+          <li>If the target Group has already acted once, a successful Command Action will usually make it <strong>Weary</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Useful Table Reminders</h2>
+        <ul class="key-list small">
+          <li>Keep <strong>Action tokens</strong>, <strong>Status markers</strong>, and <strong>Morale dice</strong> beside the correct Group.</li>
+          <li>Groups block <strong>Line of Sight</strong>.</li>
+          <li>Terrain can slow movement, hinder or block LoS, and improve defence.</li>
+          <li>If a Group ends up <strong>out of coherency</strong>, its next activation must be used to restore it if possible.</li>
+          <li>Mounted Warriors use <strong>25×50mm</strong> pill bases; Infantry use <strong>25mm</strong> rounds.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Compiled from The Barons’ War 2nd Edition rulebook.</span>
+      <span>Page 1 of 2</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h1>King John Retinues – Faction Reference</h1>
+    <div class="subtitle">Faction-specific side • quick rules reference for the retinues in <em>King John</em></div>
+
+    <table class="mini-table small">
+      <tr>
+        <th style="width:16%">Retinue</th>
+        <th style="width:18%">List-building notes</th>
+        <th style="width:42%">Faction traits / core special rules</th>
+        <th style="width:24%">Quick play notes</th>
+      </tr>
+      <tr>
+        <td><strong>Feudal European</strong><br><span class="badge">pp. 51–65</span></td>
+        <td>Standard flexible England / France style retinue.</td>
+        <td>
+          <strong>Cavalry Warfare: First Charge</strong> – first charge of mounted Knights each game gains <strong>Close Ranks</strong> if not Weary and charging 6&quot;+.<br>
+          <strong>Infantry Screen</strong> – mounted Knights may draw LoS through one friendly infantry Group when charging; that infantry takes an Order check to let the Knights move through safely.
+        </td>
+        <td>Best for classic combined-arms forces. Knights hit hard, infantry can screen the decisive charge.</td>
+      </tr>
+      <tr>
+        <td><strong>Flemish</strong><br><span class="badge">pp. 66–79</span></td>
+        <td>Infantry-heavy urban militia style force.</td>
+        <td>
+          <strong>Militia Drill</strong> – Groups with the <strong>Flemish</strong> Ability may re-roll failed <strong>Order</strong> checks to receive a Command Action.<br>
+          <strong>Militia Training</strong> – Flemish Militia / Flemish Spearmen may re-roll <strong>Attack dice of 1</strong> in their first melee each round if an unbroken friendly Group with <strong>Flemish</strong> is within 6&quot; and LoS.
+        </td>
+        <td>Works best in mutually supporting infantry clusters. Strong discipline and group synergy.</td>
+      </tr>
+      <tr>
+        <td><strong>Poitevin</strong><br><span class="badge">pp. 80–96</span></td>
+        <td>No Baron option; best commanders top out at Lords / Paladins.</td>
+        <td>
+          <strong>Paragons of Chivalry</strong> – if a Poitevin Lord or Paladin wins melee, nearby friendly Poitevin Groups remove 1 Morale Penalty or gain a bonus die in their next melee that round; if the Lord/Paladin becomes Broken, nearby Poitevins take a Morale Penalty.<br>
+          <strong>Proud and Quarrelsome</strong> – once per round, a non-leader Poitevin Lord may use a Command Action to let a friendly Group within 6&quot; and LoS take an <strong>Action</strong>.
+        </td>
+        <td>Excels when heroic nobles stay active and aggressive. Momentum swings around your chivalric leaders.</td>
+      </tr>
+      <tr>
+        <td><strong>Mercenary</strong><br><span class="badge">pp. 97–107</span></td>
+        <td>
+          <strong>Hirelings:</strong> may form <strong>Combined Retinues</strong> with Feudal European, Flemish, Poitevin, Medieval Scottish, and Medieval Welsh retinues.<br>
+          Mercenary Retinue Leader may <strong>never be the Liege Lord</strong>.
+        </td>
+        <td>
+          <strong>Incendiaries</strong> – Mercenary Groups claim / contest Objectives from <strong>4&quot;</strong> instead of 3&quot;.<br>
+          <strong>Paid Hirelings</strong> – ignore the normal <strong>10% Green troops</strong> requirement.<br>
+          <strong>Mercenary Company</strong> – choose <strong>one</strong> company style for the retinue: <strong>Brabancon</strong>, <strong>Flemish</strong>, or <strong>Gascon</strong>.
+        </td>
+        <td>Reliable professionals. Easy to slot into another force. Excellent if you want fewer Green troops.</td>
+      </tr>
+      <tr>
+        <td><strong>Medieval Scottish</strong><br><span class="badge">pp. 108–122</span></td>
+        <td>
+          Instead of 10% Green troops, must spend at least <strong>20%</strong> of points on Groups with the <strong>Rabble</strong> Ability.
+        </td>
+        <td>
+          <strong>Exercitus Scoticanus</strong> – Rabble within Command range and LoS of a Scottish Baron/Lord roll an extra d10 on the Morale check to over-ride their Compulsory Action; alternatively, if they do not over-ride it and are Inspired, they gain <strong>+2 Attack dice</strong> when they Shoot or Charge.<br>
+          <strong>Horseless Classes</strong> – replaces the normal Green troop requirement with the 20% Rabble requirement.
+        </td>
+        <td>Expect more unpredictable levies but strong support from nobles. Great mixed-arms flavor.</td>
+      </tr>
+      <tr>
+        <td><strong>Medieval Welsh</strong><br><span class="badge">pp. 123–137</span></td>
+        <td>
+          Up to <strong>one third</strong> of a Group may upgrade to <strong>Knifemen</strong>.<br>
+          Welsh Kings / Knights have <strong>Chivalry</strong>; Welsh Lords and Nobles count as <strong>Knights</strong>.
+        </td>
+        <td>
+          <strong>He Who Fights and Runs Away</strong> – after losing a Combat Action, a Welsh Group may voluntarily flee and become <strong>Broken</strong> before Morale checks are rolled.<br>
+          <strong>No Shame in Defeat</strong> – Welsh Groups roll <strong>2d10 and keep the highest</strong> when testing to Rally.<br>
+          <strong>Knifeman upgrade</strong> – during a Charge or Attack Back, force the opponent to re-roll one successful Defence die per Knifeman.
+        </td>
+        <td>Skirmishing, terrain use, and tactical withdrawal are key. Easier than most to recover after breaking.</td>
+      </tr>
+      <tr>
+        <td><strong>Outlaw</strong><br><span class="badge">pp. 138–151</span></td>
+        <td>
+          May only ever form <strong>Allied Retinues</strong>.<br>
+          Outlaw Retinue Leader may <strong>never be the Liege Lord</strong>.<br>
+          Leadership choice matters: <strong>Outlawed Noble</strong> or <strong>Wolfshead</strong>.
+        </td>
+        <td>
+          <strong>Desperate Men</strong> – if a Group rolls a natural <strong>10</strong> on a Morale check that would make it Broken, or on a Rally test, it passes and thereafter auto-passes future Morale checks that would make it Broken.<br>
+          <strong>Outlaw’s Vendetta</strong> (Outlawed Noble leader) – when fighting an enemy Command Group in melee, treat it as having <strong>+1 Morale Penalty</strong> for Morale Melee Modifier purposes.<br>
+          <strong>Wolfshead’s Ambush</strong> (Wolfshead leader) – hold back up to <strong>half</strong> your Groups and deploy them after setup, usually 10&quot; away from enemies / objectives (or 6&quot; if out of LoS).
+        </td>
+        <td>Plays very differently depending on leader choice: revenge-fueled noble strike force or ambushing bandit swarm.</td>
+      </tr>
+    </table>
+
+    <div class="section-gap two-col">
+      <div class="panel">
+        <h2>King John Sourcebook Page Map</h2>
+        <ul class="key-list small">
+          <li><strong>Feudal and European Retinues:</strong> pp. 51–65</li>
+          <li><strong>Flemish Retinues:</strong> pp. 66–79</li>
+          <li><strong>Poitevin Retinues:</strong> pp. 80–96</li>
+          <li><strong>Mercenary Retinues:</strong> pp. 97–107</li>
+          <li><strong>Scottish Retinues:</strong> pp. 108–122</li>
+          <li><strong>Medieval Welsh Retinues:</strong> pp. 123–137</li>
+          <li><strong>Outlaw Retinues:</strong> pp. 138–151</li>
+          <li><strong>Robin Hood and the Merry Men:</strong> pp. 152–159</li>
+        </ul>
+      </div>
+
+      <div class="panel soft">
+        <h2>Handy Faction Reminders</h2>
+        <ul class="key-list small">
+          <li><strong>Mercenaries</strong> ignore the normal Green troop minimum thanks to <strong>Paid Hirelings</strong>.</li>
+          <li><strong>Scottish</strong> do <em>not</em> ignore low-quality troops – they swap the Green requirement for a <strong>20% Rabble</strong> requirement.</li>
+          <li><strong>Welsh</strong> are unusually forgiving after a retreat because of <strong>No Shame in Defeat</strong>.</li>
+          <li><strong>Outlaws</strong> are the most leader-dependent retinue in the book.</li>
+          <li><strong>Poitevins</strong> reward keeping multiple noble leaders active on the table.</li>
+          <li><strong>Flemish</strong> get best results when militia groups support one another closely.</li>
+          <li><strong>Feudal European</strong> is the cleanest “default” list for classic King John era Anglo-French warfare.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Compiled from King John: A Sourcebook for The Barons’ War 2nd Edition.</span>
+      <span>Page 2 of 2</span>
+    </div>
+  </section>
+
+</body>
+</html>
